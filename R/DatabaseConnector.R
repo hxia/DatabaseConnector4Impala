@@ -362,7 +362,7 @@ connect.default <- function(dbms = "sql server",
 	driver <- JDBC(driverClass = "org.apache.hive.jdbc.HiveDriver",
           classPath = list.files("java/impala-jdbc-0.5-2", pattern="jar$", full.names=T),
           identifier.quote="`")
-	writeLines(driver)
+	writeLines("Adding JDBC driver's jars")
 	
     connection <- RJDBC::dbConnect(driver, paste("jdbc:hive2://",
                                                  server,
