@@ -352,11 +352,6 @@ connect.default <- function(dbms = "sql server",
   # Cloudera Impala
   if (dbms == "impala") {
     writeLines("Connecting using Cloudera Impala driver")
-    #if (!grepl("/", server))
-    #  stop("Error: database name not included in server string but is required for Netezza. Please specify server as <host>/<database>")
-    #parts <- unlist(strsplit(server, "/"))
-    #host <- parts[1]
-    #database <- parts[2]
 	
 	# if the port is missing, use the default Impala port 21050
     if (missing(port) || is.null(port))
@@ -367,7 +362,8 @@ connect.default <- function(dbms = "sql server",
 	driver <- JDBC(driverClass = "org.apache.hive.jdbc.HiveDriver",
           classPath = list.files("java/impala-jdbc-0.5-2", pattern="jar$", full.names=T),
           identifier.quote="`")
-		  
+	writeLines(driver)
+	
     connection <- RJDBC::dbConnect(driver, paste("jdbc:hive2://",
                                                  server,
                                                  ":",
@@ -382,6 +378,8 @@ connect.default <- function(dbms = "sql server",
       RJDBC::dbSendUpdate(connection, paste("use ", schema))
 	  
     attr(connection, "dbms") <- dbms
+	
+	writeLines("Return JDBC connection object ...")
     return(connection)
   }
   
