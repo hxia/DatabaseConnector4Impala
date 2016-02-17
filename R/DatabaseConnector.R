@@ -360,7 +360,7 @@ connect.default <- function(dbms = "sql server",
     #pathToJar <- system.file("java", "nzjdbc.jar", package = "DatabaseConnector")
     #driver <- jdbcSingleton("org.netezza.Driver", pathToJar, identifier.quote = "`")
 	driver <- JDBC(driverClass = "org.apache.hive.jdbc.HiveDriver",
-          classPath = list.files("java/impala-jdbc-0.5-2", pattern="jar$", full.names=T),
+          classPath = list.files(extraSettings, pattern="jar$", full.names=T),
           identifier.quote="`", package = "DatabaseConnector")
 	writeLines("Adding JDBC driver's jars")
 	
@@ -371,8 +371,8 @@ connect.default <- function(dbms = "sql server",
                                                  "/; auth=noSasl",
                                                  sep = ""))
 												 
-    if (!missing(extraSettings) && !is.null(extraSettings))
-      connectionString <- paste(connectionString, "?", extraSettings, sep = "")
+    #if (!missing(extraSettings) && !is.null(extraSettings))
+    #  connectionString <- paste(connectionString, "?", extraSettings, sep = "")
 	  
     if (!missing(schema) && !is.null(schema))
       RJDBC::dbSendUpdate(connection, paste("use ", schema))
